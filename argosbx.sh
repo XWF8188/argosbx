@@ -2269,8 +2269,8 @@ hyjumpport="{$hyjpt}"
 nft add rule inet nat prerouting udp dport $hyjumpport dnat to :$(cat "$HOME/agsbx/port_hy2")
 nft list ruleset > /etc/nftables.conf
 if command -v apk >/dev/null 2>&1; then
-rc-update add nftables 2>/dev/null
-/etc/init.d/nftables start >/dev/null 2>&1
+rc-update add nftables
+/etc/init.d/nftables start
 else
 systemctl enable nftables >/dev/null 2>&1
 systemctl restart nftables >/dev/null 2>&1
