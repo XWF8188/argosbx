@@ -70,6 +70,7 @@ arm64|aarch64) cpu=arm64;;
 amd64|x86_64) cpu=amd64;;
 *) echo "目前脚本不支持$(uname -m)架构" && exit
 esac
+if [ "$1" != "del" ]; then
 mkdir -p "$HOME/agsbx"
 if [ ! -f sbx_update ]; then
 echo "执行必要的脚本依赖中，请稍后"
@@ -79,6 +80,7 @@ elif command -v apt >/dev/null 2>&1; then
 apt update >/dev/null 2>&1 && apt install nftables busybox coreutils util-linux -y >/dev/null 2>&1
 fi
 touch sbx_update
+fi
 fi
 v4v6(){
 v4=$( (command -v curl >/dev/null 2>&1 && curl -s4m5 -k "$v46url" 2>/dev/null) || (command -v wget >/dev/null 2>&1 && timeout 3 wget -4 --tries=2 -qO- "$v46url" 2>/dev/null) )
