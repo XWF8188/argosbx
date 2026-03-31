@@ -2063,12 +2063,11 @@ showmode
 hyjmptdel(){
 if command -v apk >/dev/null 2>&1; then
 rc-update del nftables >/dev/null 2>&1
-/etc/init.d/nftables stop >/dev/null 2>&1
 else
 systemctl disable nftables >/dev/null 2>&1
 systemctl stop nftables >/dev/null 2>&1
-fi
 rm -rf /etc/nftables.conf
+fi
 nft delete table inet nat >/dev/null 2>&1
 }
 cleandel(){
@@ -2270,7 +2269,6 @@ nft add rule inet nat prerouting udp dport $hyjumpport dnat to :$(cat "$HOME/ags
 nft list ruleset > /etc/nftables.conf
 if command -v apk >/dev/null 2>&1; then
 rc-update add nftables
-/etc/init.d/nftables start
 else
 systemctl enable nftables >/dev/null 2>&1
 systemctl restart nftables >/dev/null 2>&1
