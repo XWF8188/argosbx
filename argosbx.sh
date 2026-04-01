@@ -2250,7 +2250,9 @@ rm /tmp/crontab.tmp
 fi
 echo "本地IP订阅链接已更新完成"
 fi
-if [ -n "$hyjpt" && -n "$hyp" ]; then
+if [ -n "$hyjpt" ] && [ -n "$hyp" ]; then
+echo
+echo "设置HY2协议的跳跃端口：$hyjpt"
 iptables -t nat -F PREROUTING >/dev/null 2>&1
 ip6tables -t nat -F PREROUTING >/dev/null 2>&1
 hyport=$(cat "$HOME/agsbx/port_hy2")
