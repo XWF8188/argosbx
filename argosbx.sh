@@ -2264,6 +2264,8 @@ iptables -t nat -A PREROUTING -p udp --dport "$port" -j DNAT --to-destination :$
 ip6tables -t nat -A PREROUTING -p udp --dport "$port" -j DNAT --to-destination :$hyport
 done
 netfilter-persistent save >/dev/null 2>&1
+rc-update show default | grep -q 'iptables'  || rc-update add iptables  >/dev/null 2>&1
+rc-update show default | grep -q 'ip6tables' || rc-update add ip6tables >/dev/null 2>&1
 rc-service iptables save >/dev/null 2>&1
 rc-service ip6tables save >/dev/null 2>&1
 fi
