@@ -1512,14 +1512,20 @@ echo "💣【 Hysteria2 】节点信息如下："
 port_hy2=$(cat "$HOME/agsbx/port_hy2")
 hy2_ports=$(iptables -t nat -nL --line 2>/dev/null | grep -w "$port_hy2" | awk '{print $8}' | sed 's/dpts*://')
 if [ -n "$hy2_ports" ]; then
-Hysteria2跳跃端口已开启：
+echo "Hysteria2跳跃端口已开启："
 echo $hy2_ports
-hy2ports=$(echo $hy2_ports | sed 's/:/-/g')
-hyps=$hy2_port,$hy2ports
+cmhy2pt=$(echo $hy2_ports | tr ':' '-')
+hyps=$cmhy2pt
+sbhy2pt=$(echo "$hy2_ports" | grep -o '[0-9]\+:[0-9]\+' | sed 's/.*/"&"/' | paste -sd,)
+sbhy2ports(){
+    cat <<EOF
+  "server_ports": [ $sbhy2pt ],
+EOF
+}
 else
 hyps=
 fi
-hy2_link="hysteria2://$uuid@$server_ip:$port_hy2?security=tls&alpn=h3&insecure=1&mport=$hyps&sni=www.bing.com#${sxname}hy2-$hostname"
+hy2_link="hysteria2://$uuid@$server_ip:$port_hy2?security=tls&alpn=h3&insecure=1&allowInsecure=1&mport=$hyps&sni=www.bing.com#${sxname}hy2-$hostname"
 echo "$hy2_link" >> "$HOME/agsbx/jhsub.txt"
 echo "$hy2_link"
 echo
@@ -1530,6 +1536,7 @@ cat <<EOF
         "tag": "${sxname}hy2-$hostname",
         "server": "$server_ip",
         "server_port": $port_hy2,
+$(sbhy2ports)
         "password": "$uuid",
         "tls": {
             "enabled": true,
@@ -1550,7 +1557,8 @@ cat <<EOF
 - name: ${sxname}hysteria2-$hostname                            
   type: hysteria2                                      
   server: $server_ip                              
-  port: $port_hy2                                
+  port: $port_hy2
+  ports: $cmhy2pt
   password: $uuid                          
   alpn:
     - h3
@@ -1566,7 +1574,7 @@ fi
 if grep tuic5-sb "$HOME/agsbx/sb.json" >/dev/null 2>&1; then
 echo "💣【 Tuic 】节点信息如下："
 port_tu=$(cat "$HOME/agsbx/port_tu")
-tuic5_link="tuic://$uuid:$uuid@$server_ip:$port_tu?congestion_control=bbr&udp_relay_mode=native&alpn=h3&sni=www.bing.com&allow_insecure=1&allowInsecure=1#${sxname}tuic-$hostname"
+tuic5_link="tuic://$uuid:$uuid@$server_ip:$port_tu?congestion_control=bbr&udp_relay_mode=native&alpn=h3&sni=www.bing.com&insecure=1&allowInsecure=1#${sxname}tuic-$hostname"
 echo "$tuic5_link" >> "$HOME/agsbx/jhsub.txt"
 echo "$tuic5_link"
 echo
