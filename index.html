@@ -482,8 +482,8 @@
       <section class="card subscription-links">
         <h2>Clash/Mihomo、Singbox、聚合单节点的订阅链接设置：</h2>
         <div class="row">
-          <label>启用订阅链接 <span class="pill">subsbx</span></label>
-          <select id="subsbx">
+          <label>启用订阅链接 <span class="pill">sub</span></label>
+          <select id="sub">
             <option value="">默认 关闭</option>
             <option value="y">开启</option>
           </select>
@@ -557,12 +557,12 @@
   const CURL = 'bash <(curl -Ls https://raw.githubusercontent.com/yonggekkk/argosbx/main/argosbx.sh)';
   const WGET = 'bash <(wget -qO- https://raw.githubusercontent.com/yonggekkk/argosbx/main/argosbx.sh)';
   const protoKeys = ['sopt','vmpt','vlpt','xhpt','vxpt','vwpt','arpt','anpt','hypt','tupt','sspt'];
-  const optIds = ['warp','ippz','uuid','reym','hyjpt','cdnym','name', 'oap', 'subsbx', 'subid', 'subpt'];
+  const optIds = ['warp','ippz','uuid','reym','hyjpt','cdnym','name', 'oap', 'sub', 'subid', 'subpt'];
 
   const argoSelect = document.getElementById('argoSelect');
   const agn = document.getElementById('agn');
   const agk = document.getElementById('agk');
-  const subsbx = document.getElementById('subsbx');
+  const sub = document.getElementById('sub');
   const subid = document.getElementById('subid');
   const subpt = document.getElementById('subpt');
   
@@ -615,7 +615,7 @@
   }
 
   function updateSubState() {
-    const isEnabled = subsbx.value === 'y';
+    const isEnabled = sub.value === 'y';
     if (!isEnabled) {
       subid.value = '';
       subpt.value = '';
@@ -640,7 +640,7 @@
     document.getElementById('reym').value = '';
     document.getElementById('hyjpt').value = '';
     document.getElementById('name').value = '';
-    subsbx.value = '';
+    sub.value = '';
     updateSubState();
     argoSelect.value = '';
     updateArgoState('');
@@ -666,7 +666,7 @@
       render();
   }
 
-  subsbx.addEventListener('change', updateSubState);
+  sub.addEventListener('change', updateSubState);
 
   argoSelect.addEventListener('change', () => {
     const argoValue = argoSelect.value;
@@ -770,7 +770,7 @@
     const keys = Object.keys(m);
     const ordered = [];
     protoKeys.forEach(k => { if (keys.includes(k)) ordered.push(k); });
-    ['warp', 'uuid', 'reym', 'hyjpt', 'cdnym', 'name', 'ippz', 'subsbx', 'subid', 'subpt'].forEach(k => { if (keys.includes(k)) ordered.push(k); });
+    ['warp', 'uuid', 'reym', 'hyjpt', 'cdnym', 'name', 'ippz', 'sub', 'subid', 'subpt'].forEach(k => { if (keys.includes(k)) ordered.push(k); });
     if (keys.includes('argo')) ordered.push('argo');
     if (keys.includes('agn')) ordered.push('agn');
     if (keys.includes('agk')) ordered.push('agk');
