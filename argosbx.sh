@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 export LANG=en_US.UTF-8
 [ -z "${vlpt+x}" ] || vlp=yes
 [ -z "${vmpt+x}" ] || { vmp=yes; vmag=yes; }
@@ -2276,8 +2276,9 @@ echo "设置Hysteria2协议的跳跃端口：$hyjpt"
 iptables -t nat -F PREROUTING >/dev/null 2>&1
 ip6tables -t nat -F PREROUTING >/dev/null 2>&1
 hyport=$(cat "$HOME/agsbx/port_hy2")
-hyjppt=($hyjpt)
-for port in "${hyjppt[@]}"; do
+#hyjppt=($hyjpt)
+#for port in "${hyjppt[@]}"; do
+for port in $hyjpt; do
 iptables -t nat -A PREROUTING -p udp --dport "$port" -j DNAT --to-destination :$hyport
 ip6tables -t nat -A PREROUTING -p udp --dport "$port" -j DNAT --to-destination :$hyport
 done
