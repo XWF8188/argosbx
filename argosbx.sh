@@ -2172,18 +2172,16 @@ xrestart
 *"/agsbx/c"*)
 kill "$(basename "$P")" 2>/dev/null
 kill -15 $(pgrep -f 'agsbx/c' 2>/dev/null) >/dev/null 2>&1
+if [ -e "$HOME/agsbx/sbargotoken.log" ]; then
 if pidof systemd >/dev/null 2>&1; then
 systemctl restart argo >/dev/null 2>&1
 elif command -v rc-service >/dev/null 2>&1; then
 rc-service argo restart >/dev/null 2>&1
 else
-if [ -e "$HOME/agsbx/sbargotoken.log" ]; then
-if ! pidof systemd >/dev/null 2>&1 && ! command -v rc-service >/dev/null 2>&1; then
 nohup $HOME/agsbx/cloudflared tunnel --no-autoupdate --edge-ip-version auto --protocol http2 run --token $(cat $HOME/agsbx/sbargotoken.log 2>/dev/null) >/dev/null 2>&1 &
 fi
 else
 nohup $HOME/agsbx/cloudflared tunnel --url http://localhost:$(cat $HOME/agsbx/argoport.log 2>/dev/null) --edge-ip-version auto --no-autoupdate --protocol http2 > $HOME/agsbx/argo.log 2>&1 &
-fi
 fi
 ;;
 esac
