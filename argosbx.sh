@@ -1104,6 +1104,14 @@ echo "Argosbx脚本进程启动成功，安装完毕" && sleep 2
 else
 echo "Argosbx脚本进程未启动，安装失败" && exit
 fi
+if [ -n "$cfip" ]; then
+set -- $cfip
+cdnip1="$1"
+cdnip2="$2"
+else
+cdnip1="yg1.ygkkk.dpdns.org"
+cdnip2="yg6.ygkkk.dpdns.org"
+fi
 }
 argosbxstatus(){
 echo "=========当前三大内核运行状态========="
@@ -1643,7 +1651,7 @@ argodomain=$(cat "$HOME/agsbx/sbargoym.log" 2>/dev/null)
 if [ -n "$argodomain" ]; then
 vlvm=$(cat $HOME/agsbx/vlvm 2>/dev/null)
 if [ "$vlvm" = "Vmess" ]; then
-vmatls_link1="vmess://$(echo "{ \"v\": \"2\", \"ps\": \"${sxname}vmess-ws-tls-argo-$hostname-443\", \"add\": \"yg1.ygkkk.dpdns.org\", \"port\": \"443\", \"id\": \"$uuid\", \"aid\": \"0\", \"scy\": \"auto\", \"net\": \"ws\", \"type\": \"none\", \"host\": \"$argodomain\", \"path\": \"/$uuid-vm\", \"tls\": \"tls\", \"sni\": \"$argodomain\", \"alpn\": \"\", \"fp\": \"chrome\"}" | base64 -w0)"
+vmatls_link1="vmess://$(echo "{ \"v\": \"2\", \"ps\": \"${sxname}vmess-ws-tls-argo-$hostname-443\", \"add\": \"$cdnip1\", \"port\": \"443\", \"id\": \"$uuid\", \"aid\": \"0\", \"scy\": \"auto\", \"net\": \"ws\", \"type\": \"none\", \"host\": \"$argodomain\", \"path\": \"/$uuid-vm\", \"tls\": \"tls\", \"sni\": \"$argodomain\", \"alpn\": \"\", \"fp\": \"chrome\"}" | base64 -w0)"
 echo "$vmatls_link1" >> "$HOME/agsbx/jhsub.txt"
 vmatls_link2="vmess://$(echo "{ \"v\": \"2\", \"ps\": \"${sxname}vmess-ws-tls-argo-$hostname-8443\", \"add\": \"yg2.ygkkk.dpdns.org\", \"port\": \"8443\", \"id\": \"$uuid\", \"aid\": \"0\", \"scy\": \"auto\", \"net\": \"ws\", \"type\": \"none\", \"host\": \"$argodomain\", \"path\": \"/$uuid-vm\", \"tls\": \"tls\", \"sni\": \"$argodomain\", \"alpn\": \"\", \"fp\": \"chrome\"}" | base64 -w0)"
 echo "$vmatls_link2" >> "$HOME/agsbx/jhsub.txt"
@@ -1655,7 +1663,7 @@ vmatls_link5="vmess://$(echo "{ \"v\": \"2\", \"ps\": \"${sxname}vmess-ws-tls-ar
 echo "$vmatls_link5" >> "$HOME/agsbx/jhsub.txt"
 vmatls_link6="vmess://$(echo "{ \"v\": \"2\", \"ps\": \"${sxname}vmess-ws-tls-argo-$hostname-2096\", \"add\": \"[2606:4700::0]\", \"port\": \"2096\", \"id\": \"$uuid\", \"aid\": \"0\", \"scy\": \"auto\", \"net\": \"ws\", \"type\": \"none\", \"host\": \"$argodomain\", \"path\": \"/$uuid-vm\", \"tls\": \"tls\", \"sni\": \"$argodomain\", \"alpn\": \"\", \"fp\": \"chrome\"}" | base64 -w0)"
 echo "$vmatls_link6" >> "$HOME/agsbx/jhsub.txt"
-vma_link7="vmess://$(echo "{ \"v\": \"2\", \"ps\": \"${sxname}vmess-ws-argo-$hostname-80\", \"add\": \"yg6.ygkkk.dpdns.org\", \"port\": \"80\", \"id\": \"$uuid\", \"aid\": \"0\", \"scy\": \"auto\", \"net\": \"ws\", \"type\": \"none\", \"host\": \"$argodomain\", \"path\": \"/$uuid-vm\", \"tls\": \"\"}" | base64 -w0)"
+vma_link7="vmess://$(echo "{ \"v\": \"2\", \"ps\": \"${sxname}vmess-ws-argo-$hostname-80\", \"add\": \"$cdnip2\", \"port\": \"80\", \"id\": \"$uuid\", \"aid\": \"0\", \"scy\": \"auto\", \"net\": \"ws\", \"type\": \"none\", \"host\": \"$argodomain\", \"path\": \"/$uuid-vm\", \"tls\": \"\"}" | base64 -w0)"
 echo "$vma_link7" >> "$HOME/agsbx/jhsub.txt"
 vma_link8="vmess://$(echo "{ \"v\": \"2\", \"ps\": \"${sxname}vmess-ws-argo-$hostname-8080\", \"add\": \"yg7.ygkkk.dpdns.org\", \"port\": \"8080\", \"id\": \"$uuid\", \"aid\": \"0\", \"scy\": \"auto\", \"net\": \"ws\", \"type\": \"none\", \"host\": \"$argodomain\", \"path\": \"/$uuid-vm\", \"tls\": \"\"}" | base64 -w0)"
 echo "$vma_link8" >> "$HOME/agsbx/jhsub.txt"
@@ -1672,7 +1680,7 @@ echo "$vma_link13" >> "$HOME/agsbx/jhsub.txt"
 sbvmargopt(){
 cat <<EOF
 {
-            "server": "yg1.ygkkk.dpdns.org",
+            "server": "$cdnip1",
             "server_port": 443,
             "tag": "${sxname}vmess-ws-tls-argo-$hostname-443",
             "tls": {
@@ -1699,7 +1707,7 @@ cat <<EOF
             "uuid": "$uuid"
         },
 {
-            "server": "yg6.ygkkk.dpdns.org",
+            "server": "$cdnip2",
             "server_port": 80,
             "tag": "${sxname}vmess-ws-argo-$hostname-80",
             "tls": {
@@ -1735,7 +1743,7 @@ clvmargopt(){
 cat <<EOF
 - name: ${sxname}vmess-ws-tls-argo-$hostname-443                         
   type: vmess
-  server: yg1.ygkkk.dpdns.org                        
+  server: $cdnip1                        
   port: 443                                     
   uuid: $uuid       
   alterId: 0
@@ -1750,7 +1758,7 @@ cat <<EOF
       Host: $argodomain
 - name: ${sxname}vmess-ws-argo-$hostname-80                         
   type: vmess
-  server: yg6.ygkkk.dpdns.org                        
+  server: $cdnip2                        
   port: 80                                     
   uuid: $uuid       
   alterId: 0
@@ -2274,8 +2282,6 @@ echo "设置Hysteria2协议的跳跃端口：$hyjpt"
 iptables -t nat -F PREROUTING >/dev/null 2>&1
 ip6tables -t nat -F PREROUTING >/dev/null 2>&1
 hyport=$(cat "$HOME/agsbx/port_hy2")
-#hyjppt=($hyjpt)
-#for port in "${hyjppt[@]}"; do
 for port in $hyjpt; do
 iptables -t nat -A PREROUTING -p udp --dport "$port" -j DNAT --to-destination :$hyport
 ip6tables -t nat -A PREROUTING -p udp --dport "$port" -j DNAT --to-destination :$hyport
