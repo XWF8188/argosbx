@@ -1743,7 +1743,7 @@ clvmargopt(){
 cat <<EOF
 - name: ${sxname}vmess-ws-tls-argo-$hostname-443                         
   type: vmess
-  server: $cdnip1                        
+  server: "$cdnip1"                       
   port: 443                                     
   uuid: $uuid       
   alterId: 0
@@ -1758,7 +1758,7 @@ cat <<EOF
       Host: $argodomain
 - name: ${sxname}vmess-ws-argo-$hostname-80                         
   type: vmess
-  server: $cdnip2                        
+  server: "$cdnip2"                        
   port: 80                                     
   uuid: $uuid       
   alterId: 0
