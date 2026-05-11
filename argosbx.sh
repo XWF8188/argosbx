@@ -814,14 +814,12 @@ cat >> "$HOME/agsbx/xr.json" <<EOF
     "rules": [
       {
         "type": "field",
-        "inboundTag": ["socks-in", "http-in"],
         "ip": [ ${xip} ],
         "network": "tcp,udp",
         "outboundTag": "${x1outtag}"
       },
       {
         "type": "field",
-        "inboundTag": ["socks-in", "http-in"],
         "network": "tcp,udp",
         "outboundTag": "${x2outtag}"
       }
