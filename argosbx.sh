@@ -79,7 +79,7 @@ apk update >/dev/null 2>&1 && apk add --no-cache bash busybox-extras gcompat lib
 elif command -v apt >/dev/null 2>&1; then
 export DEBIAN_FRONTEND=noninteractive
 printf 'iptables-persistent iptables-persistent/autosave_v4 boolean true\niptables-persistent iptables-persistent/autosave_v6 boolean true\n' | debconf-set-selections
-apt update >/dev/null 2>&1 && apt install -y busybox coreutils util-linux iptables iptables-persistent >/dev/null 2>&1
+apt update >/dev/null 2>&1 && apt install -y busybox coreutils util-linux iptables iptables-persistent cron >/dev/null 2>&1
 fi
 touch sbx_update
 fi
@@ -150,10 +150,10 @@ if [ "$v4_ok" = true ] && [ "$v6_ok" = true ]; then
 case "$warp" in *s4*) sbyx='prefer_ipv4' ;; *) sbyx='prefer_ipv6' ;; esac
 case "$warp" in *x4*) xryx='ForceIPv4v6' ;; *x*) xryx='ForceIPv6v4' ;; *) xryx='ForceIPv4v6' ;; esac
 elif [ "$v4_ok" = true ] && [ "$v6_ok" != true ]; then
-case "$warp" in *s4*|*x*) sbyx='ipv4_only' ;; *) sbyx='prefer_ipv6' ;; esac
+case "$warp" in *s4*|x) sbyx='ipv4_only' ;; *) sbyx='prefer_ipv6' ;; esac
 case "$warp" in *x4*) xryx='ForceIPv4' ;; *x*) xryx='ForceIPv6v4' ;; *) xryx='ForceIPv4v6' ;; esac
 elif [ "$v4_ok" != true ] && [ "$v6_ok" = true ]; then
-case "$warp" in *s6*) sbyx='ipv6_only' ;; *) sbyx='prefer_ipv4' ;; esac
+case "$warp" in *s6*|x) sbyx='ipv6_only' ;; *) sbyx='prefer_ipv4' ;; esac
 case "$warp" in *x6*) xryx='ForceIPv6' ;; *x*) xryx='ForceIPv4v6' ;; *) xryx='ForceIPv6v4' ;; esac
 fi
 }
